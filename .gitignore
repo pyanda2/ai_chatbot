@@ -1,0 +1,5 @@
+.env
+.venv
+.chainlit
+__pycache__
+models/vicuna-7b-v1.5.Q4_K_M.gguf
