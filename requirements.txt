@@ -1,9 +1,9 @@
 #App
-chainlit-0.7.1
+chainlit
 #LLM
-langchain-0.0.305
-chromadb-0.4.13
-llamacpp-0.1.14
-llama_cpp_python-0.2.10
-pypdf2-3.0.1
-sentence_transformers-2.2.2
+langchain
+chromadb
+llamacpp
+llama_cpp_python
+pypdf2
+sentence_transformers
