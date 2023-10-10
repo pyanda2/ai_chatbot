@@ -1,6 +1,6 @@
 # ai_chatbot
 Create a "models" folder, insert your quantized model there
-- HuggingFace user with a lot of said models: https://huggingface.co/TheBloke
+- HuggingFace user with a lot of said models: https://huggingface.co/TheBloke/vicuna-7B-v1.5-GGUF
 
 - Inside qa.py, change the directory of where you put your model in the "llama_model_path = <model_directory_here>" (line 20)
 
