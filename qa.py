@@ -19,17 +19,6 @@ import chainlit as cl
 text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)
 llama_model_path = "models/vicuna-7b-v1.5.Q4_K_M.gguf"
 
-def extract_text_from_pdf(file):
-    texts = []
-    # with open(pdf_path, 'rb') as pdf_file:
-    # with file as pdf_file:
-    pdf_reader = PyPDF2.PdfReader(file)
-
-    for page_num in range(pdf_reader.numPages):
-        page = pdf_reader.getPage(page_num)
-        texts.append(page.extractText())
-
-    return texts
 
 @cl.on_chat_start
 async def on_chat_start():
@@ -39,36 +28,49 @@ async def on_chat_start():
     while files == None:
         files = await cl.AskFileMessage(
             content="Please upload a text file to begin!",
-            accept=["application/pdf"],
-            max_size_mb=20,
+            accept=["application/pdf", "text/plain"],
+            max_size_mb=100,
             timeout=180,
+            max_files=5
         ).send()
 
-    file = files[0]
-    msg = cl.Message(
-        content=f"Processing `{file.name}`...", disable_human_feedback=True
-    )
-    await msg.send()
-
-    pdf_file = PyPDF2.PdfReader(BytesIO(file.content))
-
-    # Get the total number of pages in the PDF file.
-    num_pages = len(pdf_file.pages)
-
-    # Create a list to store the decoded text from each page.
-    decoded_text = []
-
-    # Decode each page of the PDF file and add the decoded text to the list.
-    for i in range(num_pages):
-        page = pdf_file.pages[i]
-        decoded_text.append(page.extract_text())
-
     chunks = []
-    for text in decoded_text:
-        chunks.extend(text_splitter.split_text(text))
+    for file in files:
+
+        _, ext = os.path.splitext(file.name)
+        print(f"File type: {ext}")
+
+        msg = cl.Message(
+                content=f"Processing `{file.name}`...", disable_human_feedback=True
+            )
+        await msg.send()
+
+        
+        if ext == ".txt":
+            tex = file.content.decode("utf-8")
+            chunks.extend(text_splitter.split_text(text=tex))
+        elif ext == ".pdf":
+            print("entered pdf elif")
+            pdf_file = PyPDF2.PdfReader(BytesIO(file.content))
+
+            # Get the total number of pages in the PDF file.
+            num_pages = len(pdf_file.pages)
+
+            # Create a list to store the decoded text from each page.
+            decoded_text = []
+
+            # Decode each page of the PDF file and add the decoded text to the list.
+            for i in range(num_pages):
+                page = pdf_file.pages[i]
+                decoded_text.append(page.extract_text())
+
+            for text in decoded_text:
+                chunks.extend(text_splitter.split_text(text))
+        
     # Split the text into chunks
     # texts = text_splitter.split_text(text)
 
+    print(f"chunks size: {len(chunks)}")
     # Create a metadata for each chunk
     metadatas = [{"source": f"{i}-pl"} for i in range(len(chunks))]
 
