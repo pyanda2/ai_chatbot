@@ -1,4 +1,6 @@
 # ai_chatbot
+Clone this repository: ```git clone https://github.com/pyanda2/ai_chatbot.git```
+
 Create a "models" folder, insert your quantized model there
 - HuggingFace user with a lot of said models: https://huggingface.co/TheBloke/vicuna-7B-v1.5-GGUF
     - Scroll down to "vicuna-7b-v1.5.Q4_K_M.gguf" and click it (you can use any other model shown, but I used this)
