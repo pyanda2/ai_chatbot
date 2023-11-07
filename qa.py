@@ -17,7 +17,7 @@ from langchain.memory import ChatMessageHistory, ConversationBufferMemory
 import chainlit as cl
 
 text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)
-llama_model_path = "models/vicuna-7b-v1.5.Q4_K_M.gguf"
+llama_model_path = "../src/vicuna-7b-v1.5.Q4_K_M.gguf"
 
 
 @cl.on_chat_start
