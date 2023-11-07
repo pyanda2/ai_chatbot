@@ -3,7 +3,7 @@ chainlit==0.7.301
 langchain==0.0.322
 PyPDF2==3.0.1
 Requests==2.31.0
-
+chromadb=0.4.13
 # #App
 # chainlit
 # #LLM
